@@ -17,3 +17,6 @@ class Peca():
 
     def is_startable(self):
         return self.first == 6 and self.second == 6
+    
+    def is_removable(self):
+        return self.first == 0 and self.second == 0
