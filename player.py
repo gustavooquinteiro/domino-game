@@ -14,15 +14,14 @@ class Player():
         return "{} com {}" .format(self.nome, self.pecas)
     
     def startable(self):
-        for peca in self.pecas:
-            if peca.is_startable():
-                self.move = peca
-                self.pecas.remove(self.move)
-                return True
+        peca = list(filter(lambda pedra: pedra.is_startable(), self.pecas))
+        if peca:
+            self.move = peca[0]
+            self.pecas.remove(self.move)
+            return True
         return False
         
     def jogar_pedra(self, tabuleiro):
-        print(*self.pecas, sep='\n')
         for pedra in self.pecas:
             if tabuleiro.right_edge() in pedra:
                 if pedra.second == tabuleiro.right_edge():
