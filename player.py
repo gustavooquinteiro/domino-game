@@ -1,3 +1,5 @@
+import socket
+
 class Player():
     def __init__(self, nome):
         self.nome = nome
@@ -39,3 +41,11 @@ class Player():
         return len(self.pecas) == 0
 
     
+HOST = '127.0.0.1'     # Endereco IP do Servidor
+PORT = 5000            # Porta que o Servidor esta
+tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+dest = (HOST, PORT)
+tcp.connect(dest)
+nome = input("Nome: ")
+tcp.send (nome.encode())
+tcp.close()
