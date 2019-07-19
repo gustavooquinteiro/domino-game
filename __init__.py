@@ -1,25 +1,26 @@
-import socket
+from multiprocessing.connection import Listener
 from jogo import Jogo
 from jogo import Tabuleiro
+from player import Player
 
 HOST = ''
 PORT = 5000
-tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 orig = (HOST, PORT)
-tcp.bind(orig)
-tcp.listen(1)
-players = []
+server = Listener(orig)
 
-while len(players) < 2:
-    con, cliente = tcp.accept()
-    while True:
-        msf = con.recv(1024)
-        if not msf:
-            break
-        print(cliente, msf.decode())
-    print("Finalizando conexao do cliene {}".format(cliente))
+players = []
+try:
+    quantidade_players = int(input("Quantidade de players: "))
+except ValueError:
+    quantidade_players = 2
+    
+while True:
+    con = server.accept()    
+    cliente = con.recv()
     players.append(cliente)
-    con.close()
+    print("{} entrou no server" .format(cliente))
+    if quantidade_players == len(players):
+        break
     
 tabuleiro  = Tabuleiro()
 jogo = Jogo(players, tabuleiro)
