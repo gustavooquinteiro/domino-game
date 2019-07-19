@@ -1,4 +1,5 @@
 from multiprocessing.connection import Client
+import constants
 
 
 class Player():
@@ -41,9 +42,7 @@ class Player():
         return len(self.pecas) == 0
 
 if __name__ == "__main__":
-    HOST = '127.0.0.1'     # Endereco IP do Servidor
-    PORT = 5000            # Porta que o Servidor esta
-    client = Client((HOST, PORT))
+    client = Client(constants.TUPLE)
     nome = input("Nome: ")
     player = Player(nome)
     client.send(player)

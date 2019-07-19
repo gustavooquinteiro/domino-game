@@ -1,4 +1,5 @@
 import collections
+from pecas import Peca
 import random
 
 

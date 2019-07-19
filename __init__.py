@@ -2,11 +2,10 @@ from multiprocessing.connection import Listener
 from jogo import Jogo
 from jogo import Tabuleiro
 from player import Player
+import constants
 
-HOST = ''
-PORT = 5000
-orig = (HOST, PORT)
-server = Listener(orig)
+
+server = Listener(constants.TUPLE)
 
 players = []
 try:
