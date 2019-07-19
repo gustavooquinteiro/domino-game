@@ -1,4 +1,5 @@
-import socket
+from multiprocessing.connection import Client
+
 
 class Player():
     def __init__(self, nome):
@@ -40,12 +41,10 @@ class Player():
     def ganhador(self):
         return len(self.pecas) == 0
 
-    
-HOST = '127.0.0.1'     # Endereco IP do Servidor
-PORT = 5000            # Porta que o Servidor esta
-tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-dest = (HOST, PORT)
-tcp.connect(dest)
-nome = input("Nome: ")
-tcp.send (nome.encode())
-tcp.close()
+if __name__ == "__main__":
+    HOST = '127.0.0.1'     # Endereco IP do Servidor
+    PORT = 5000            # Porta que o Servidor esta
+    client = Client((HOST, PORT))
+    nome = input("Nome: ")
+    player = Player(nome)
+    client.send(player)
