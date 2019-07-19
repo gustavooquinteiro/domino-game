@@ -57,15 +57,15 @@ class Jogo():
         self.players = self.players[1:] + [self.players[0]]
         self.turn = self.players[0]
         
-    def whos_turn(self):
+    def whos_turn(self, fucou=False):
         if self.first_play:
             self.turn = list(filter(lambda player: player.startable(),
                                     self.players))[0]
-        else:
+        elif not fucou:
             self.next_player()
 
-    def play(self):
-        self.whos_turn()
+    def play(self, fucou=False):
+        self.whos_turn(fucou)
         if self.first_play:
             self.tabuleiro.board.append(self.turn.move)
             self.first_play = False
@@ -76,3 +76,9 @@ class Jogo():
                 self.tabuleiro.board.append(self.turn.move)
             else:
                 self.tabuleiro.board.appendleft(self.turn.move)
+        else:
+            if self.pecas:
+                peca = random.choice(self.pecas)
+                self.turn.set_pecas(peca)
+                self.pecas.remove(peca)
+                play(True)
