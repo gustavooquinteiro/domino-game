@@ -44,6 +44,10 @@ class Player():
     
     def ganhador(self):
         return len(self.pecas) == 0
+    
+    def verify_piece(self, tabuleiro):
+        return any(tabuleiro.right_edge() in peca or 
+                   tabuleiro.left_edge() in peca for peca in self.pecas)
 
 if __name__ == "__main__":
     client = Client(TUPLE)
