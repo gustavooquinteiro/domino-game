@@ -1,7 +1,23 @@
-class Peca():
-    def __init__(self, first, second):
+import os
+import pygame
+from pathlib import Path
+from constants import *
+
+
+class Domino(pygame.sprite.Sprite):
+    def __init__(self, first, second, x, y):
+        super().__init__()
         self.first = first
         self.second = second
+        self.x = x
+        self.y = y
+        actual_path = Path(os.getcwd())
+        image_path = actual_path / 'images'
+        load_image_1 = "{}".format(image_path / "{}.png".format(self.first))
+        load_image_2 = "{}".format(image_path / "{}.png".format(self.second))
+        self.square1 = pygame.image.load(load_image_1).convert()
+        self.square2 = pygame.image.load(load_image_2).convert()
+        
 
     def __repr__(self):
         return "[{}|{}]" .format(self.first, self.second)
@@ -20,3 +36,8 @@ class Peca():
     
     def is_removable(self):
         return self.first == 0 and self.second == 0
+    
+    def draw(self, screen):
+        screen.blit(self.square1, (self.x, self.y))
+        screen.blit(self.square2, (self.x, self.y+34))
+        

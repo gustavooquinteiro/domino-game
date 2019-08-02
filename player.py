@@ -1,11 +1,13 @@
-from multiprocessing.connection import Client
-from constants import TUPLE
+from api import Client
+from constants import *
+import pygame
 
 
-class Player():
+class Player:
     def __init__(self, nome):
         self.nome = nome
         self.pecas = []
+        self.board = None
         self.move = None
         self.passed = False
     
@@ -22,8 +24,24 @@ class Player():
             self.pecas.remove(self.move)
             return True
         return False
+    
+    def ganhador(self):
+        return len(self.pecas) == 0
+    
+    def verify_piece(self, tabuleiro):
+        return any(tabuleiro.right_edge() in peca or 
+                   tabuleiro.left_edge() in peca for peca in self.pecas)
+
+    def start_screen(self):
+        self.board.screen.fill(WHITE)
         
-    def jogar_pedra(self, tabuleiro):
+
+
+class Computer(Player):
+    def __init__(self):
+        super().__init__("COMPUTER")
+    
+    def play(self, tabuleiro):
         self.passed = False
         self.move = None
         for pedra in self.pecas:
@@ -42,15 +60,7 @@ class Player():
         self.passed = True
         return False, None
     
-    def ganhador(self):
-        return len(self.pecas) == 0
-    
-    def verify_piece(self, tabuleiro):
-        return any(tabuleiro.right_edge() in peca or 
-                   tabuleiro.left_edge() in peca for peca in self.pecas)
-
 if __name__ == "__main__":
-    client = Client(TUPLE)
     nome = input("Nome: ")
     player = Player(nome)
-    client.send(player)
+    client = Client(player)
