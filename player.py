@@ -1,5 +1,7 @@
 from multiprocessing.connection import Client
 from constants import TUPLE
+from random import randint
+import time
 
 
 class Player():
@@ -26,21 +28,18 @@ class Player():
     def jogar_pedra(self, tabuleiro):
         self.passed = False
         self.move = None
-        for pedra in self.pecas:
-            if tabuleiro.right_edge() in pedra:
-                if pedra.second == tabuleiro.right_edge():
-                    pedra.invert()
-                self.move = pedra
-                self.pecas.remove(self.move)
-                return True, True
-            if tabuleiro.left_edge() in pedra:
-                if pedra.first == tabuleiro.left_edge():
-                    pedra.invert()
-                self.move = pedra
-                self.pecas.remove(self.move)
-                return True, False
-        self.passed = True
-        return False, None
+        possibilidades = list(filter(
+            lambda pedra: pedra.is_playable(tabuleiro),
+            self.pecas))
+        if possibilidades:
+            tamanho = len(possibilidades) - 1
+            jogada = possibilidades[randint(0, tamanho)]
+            self.move = jogada
+            self.pecas.remove(self.move)
+            return True, jogada.lugar
+        else:
+            self.passed = True
+        return False, self.move
     
     def ganhador(self):
         return len(self.pecas) == 0

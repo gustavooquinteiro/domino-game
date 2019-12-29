@@ -103,3 +103,5 @@ class Jogo():
                 print("Vitoria por pontos")
                 self.ganhador, points = self.count_points()
                 print("{} ganhou com {}" .format(self.ganhador, points))
+            for jogador in self.players:
+                print("{}", jogador)
